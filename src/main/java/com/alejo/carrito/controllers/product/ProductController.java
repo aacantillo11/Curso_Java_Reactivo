@@ -53,7 +53,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Void>> delete(@PathVariable("id") long id){
         return service.deleteById(id)
-                .map(ResponseEntity::ok)
+                .then( Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
                 .onErrorResume(ProductNotFoundException.class,
                         e -> Mono.just(ResponseEntity.notFound().build()));
     }
